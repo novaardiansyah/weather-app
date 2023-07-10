@@ -8,16 +8,16 @@ import City from '../screens/City'
 
 const Tab = createBottomTabNavigator()
 
-const Tabs = () => {
+const Tabs = ({ weather }) => {
   return (
     <Tab.Navigator screenOptions={{
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
       tabBarStyle: {
-        backgroundColor: 'white'
+        backgroundColor: '#f8f9fa'
       },
       headerStyle: {
-        backgroundColor: 'white'
+        backgroundColor: '#f8f9fa'
       },
       headerTitleStyle: {
         color: 'tomato',

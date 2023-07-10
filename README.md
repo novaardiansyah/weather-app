@@ -28,7 +28,7 @@ If you want to contact me you can reach me at [Email](mailto:novaardiansyah78@gm
 
 ### Live Preview
 
-I have provided the ready-to-install application here. Please download and use it if needed.
+I have provided the ready-to-install application [here](https://expo.dev/artifacts/eas/as6ERpAnm5adXKHAWShpWf.apk). Please download and use it if needed.
 
 ### Status
 

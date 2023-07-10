@@ -5,19 +5,22 @@ import { Feather } from '@expo/vector-icons'
 import RowText from '../components/RowText'
 import { weatherType } from '../utilities/weatherType'
 
-const CurrentWeather = () => {
+const CurrentWeather = ({ weatherData }) => {
+  const { main: { temp, feels_like, temp_max, temp_min }, weather } = weatherData
+  const weatherCondition = weather[0]?.main
+  
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
-        <Feather name={weatherType['Thunderstorm'].icon} size={100} color={weatherType['Thunderstorm'].backgroundColor} />
+        <Feather name={weatherType[weatherCondition]?.icon} size={100} color={weatherType[weatherCondition]?.backgroundColor} />
 
-        <Text style={styles.temp}>6</Text>
-        <Text style={styles.feels}>Feels like 5</Text>
+        <Text style={styles.tempStyle}>{Math.round(temp)}°</Text>
+        <Text style={styles.feels}>Feels like {Math.round(feels_like)}°</Text>
 
-        <RowText messageOne="High 7&nbsp;" messageTwo="Low 4" containerStyles={styles.highLowWrapper} messageOneStyles={styles.highLow} messageTwoStyles={styles.highLow} />
+        <RowText messageOne={'High ' + Math.round(temp_max) + '° '} messageTwo={'Low ' + Math.round(temp_min) + '°'} containerStyles={styles.highLowWrapper} messageOneStyles={styles.highLow} messageTwoStyles={styles.highLow} />
       </View>
 
-      <RowText messageOne="Thunderstorm" messageTwo={weatherType['Thunderstorm'].message} containerStyles={styles.bodyWrapper} messageOneStyles={styles.description} messageTwoStyles={styles.message} />
+      <RowText messageOne={weather[0]?.description} messageTwo={weatherType[weatherCondition]?.message} containerStyles={styles.bodyWrapper} messageOneStyles={styles.description} messageTwoStyles={styles.message} />
     </SafeAreaView>
   )
 }
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  temp: {
+  tempStyle: {
     color: '#000',
     fontSize: 48
   },
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
   bodyWrapper: {
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    paddingLeft: 25,
+    paddingHorizontal: 25,
     marginBottom: 40
   },
   description: {

@@ -25,21 +25,29 @@ const Tabs = ({ weather }) => {
         fontWeight: 'bold'
       }
     }}>
-      <Tab.Screen name='Current' component={CurrentWeather} options={{
+      <Tab.Screen name='Current' options={{
         tabBarIcon: ({ focused }) => (
           <Feather name="sun" size={25} color={focused ? 'tomato' : 'gray'} />
         )
-      }} />
-      <Tab.Screen name='Upcoming' component={UpcomingWeather} options={{
+      }}>
+        {(props) => <CurrentWeather {...props} weatherData={weather.list[0]} />}
+      </Tab.Screen>
+
+      <Tab.Screen name='Upcoming' options={{
         tabBarIcon: ({ focused }) => (
           <Feather name="calendar" size={25} color={focused ? 'tomato' : 'gray'} />
         )
-      }} />
-      <Tab.Screen name='City' component={City} options={{
+      }}>
+        {(props) => <UpcomingWeather {...props} weatherData={weather.list} />}
+      </Tab.Screen>
+
+      <Tab.Screen name='City' options={{
         tabBarIcon: ({ focused }) => (
           <Feather name="map-pin" size={25} color={focused ? 'tomato' : 'gray'} />
         )
-      }} />
+      }}>
+        {(props) => <City {...props} weatherData={weather.city} />}
+      </Tab.Screen>
     </Tab.Navigator>
   )
 }

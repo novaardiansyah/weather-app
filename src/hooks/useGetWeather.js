@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import * as Location from 'expo-location'
 import { API_KEY } from '@env'
@@ -10,18 +11,12 @@ export const useGetWeather = () => {
   const [error, setError] = useState(null)
   const [weather, setWeather] = useState([])
 
-  const fetchWeather = async () => {
-    try {
-      const res = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}4&lon=${longitude}9&appid=${API_KEY}`)
-      const data = await res.json()
-      setWeather(data)
-    } catch (e) {
-      setError(e.message)
-    } finally {
-      setIsLoading(false)
-    }
+  const fetchWeather = () => {
+    axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}4&lon=${longitude}9&appid=${API_KEY}&units=metric`)
+      .then(res => setWeather(res.data))
+      .catch(err => setError(err))
+      .finally(() => setIsLoading(false))
   }
-
 
   useEffect(() => {
     (async () => {
@@ -29,11 +24,12 @@ export const useGetWeather = () => {
       if (status !== 'granted') return setError('Permission to access location was denied')
 
       let location = await Location.getCurrentPositionAsync({})
-      // setLatitude(location.coords.latitude)
-      // setLongitude(location.coords.longitude)
-      await fetchWeather()
+      setLatitude(location.coords.latitude)
+      setLongitude(location.coords.longitude)
+
+      fetchWeather()
     })()
   }, [latitude, longitude])
 
-  return [isLoading, weather, error]
+  return [weather, error, isLoading]
 }
